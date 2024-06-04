@@ -1,0 +1,35 @@
+const todos = [];
+const RENDER_EVENT = 'render-todo';
+
+document.addEventListener(RENDER_EVENT, function() {
+    console.log(todos);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const submitForm = document.getElementById('form');
+    submitForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        addTodo();
+    });
+});
+
+function addTodo() {
+    const textTodo = document.getElementById('title').value;
+    const timestamp = document.getElementById('date').value;
+
+    const generatedID = generateID(); // Menggunakan generateID() yang benar
+    const todoObject = generateTodoObject(generatedID, textTodo, timestamp, false);
+    todos.push(todoObject); // Menggunakan todos.push() yang benar
+
+    document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
+function generateID() {
+    return +new Date(); // Menggunakan +new Date() untuk mendapatkan ID unik
+}
+
+function generateTodoObject(id, task, timestamp, isCompleted) {
+    return {
+        id, task, timestamp, isCompleted
+    };
+}
